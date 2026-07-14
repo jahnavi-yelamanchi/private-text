@@ -1,0 +1,1 @@
+"""PrivateText FastAPI application package."""
