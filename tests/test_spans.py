@@ -27,3 +27,17 @@ def test_invalid_bio_continuation_starts_a_new_span() -> None:
     )
 
     assert [span.type for span in spans] == ["PERSON", "LOCATION"]
+
+
+def test_adjacent_restarted_labels_become_one_user_facing_span() -> None:
+    text = "Sarah Johnson"
+    spans = decode_bio_spans(
+        text,
+        offsets=[(0, 5), (6, 13)],
+        labels=["B-PERSON", "B-PERSON"],
+        confidences=[0.9, 0.8],
+    )
+
+    assert len(spans) == 1
+    assert spans[0].text == "Sarah Johnson"
+    assert spans[0].type == "PERSON"

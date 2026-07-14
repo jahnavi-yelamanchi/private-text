@@ -55,7 +55,12 @@ def decode_bio_spans(
             flush()
             continue
         prefix, entity_type = _parts(label)
-        continuation = prefix == "I" and entity_type == active_type and start <= active_end + 1
+        # The source dataset can split one real-world value across compact
+        # labels (for example BUILDINGNUMBER + STREET), and the fine-tuned
+        # model can restart BIO at a whitespace boundary. Preserve a single
+        # user-facing span when same-type tokens are contiguous or separated
+        # only by one space.
+        continuation = entity_type == active_type and prefix in {"B", "I"} and start <= active_end + 1
         if prefix == "O" or entity_type is None:
             flush()
         elif continuation:
