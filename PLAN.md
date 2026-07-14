@@ -14,7 +14,7 @@ Build a small, public Modal-hosted service that redacts personally identifiable 
 
 - Fine-tune `distilbert-base-uncased` for token classification on a reproducible public-only subset of `ai4privacy/pii-masking-200k`; document the source labels and exact mapping.
 - Align BIO labels to subword tokens, evaluate entity-level F1 plus per-label metrics, and promote only a held-out evaluated run.
-- Compile the promoted model directly with Torch-TensorRT FP16 for batch size 1 and dynamic sequence lengths 8–256; serve it from a CUDA Modal image, with tokenizer and post-processing in Python.
+- Compile the promoted model directly with Torch-TensorRT FP16 for batch size 1 and a fixed padded 256-token profile; serve it from a CUDA Modal image, with tokenizer and post-processing in Python. (The fixed profile is the stable TensorRT path for this DistilBERT graph.)
 - Benchmark baseline PyTorch GPU and TensorRT GPU latency/throughput, then retain the promoted TensorRT artifact in a Modal Volume.
 
 ## Interface and quality bar

@@ -86,6 +86,7 @@ class PiiRedactor:
             text,
             truncation=True,
             max_length=256,
+            padding="max_length",
             return_offsets_mapping=True,
             return_tensors="pt",
         )

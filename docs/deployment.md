@@ -15,6 +15,8 @@ modal deploy modal_app/service.py
 
 The training job writes `runs/<run-id>/fp32`, `labels.json`, and `metrics.json`. The compiler adds `model-tensorrt-fp16.ts`, benchmarks baseline PyTorch FP32 against TensorRT FP16 on the same T4 GPU, then writes the `production.json` pointer. The service returns `503` until that pointer exists and all referenced artifact files are present.
 
+The production engine has a fixed padded `(1, 256)` input profile. This is intentional: dynamic TensorRT profiles currently conflict with the model's learned position embeddings in the pinned Torch-TensorRT stack.
+
 For local container serving after copying an evaluated artifact directory to `./artifacts`:
 
 ```bash

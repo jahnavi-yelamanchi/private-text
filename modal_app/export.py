@@ -47,7 +47,7 @@ def compile_and_promote(run_id: str) -> dict[str, object]:
     model = AutoModelForTokenClassification.from_pretrained(source_path).eval().cuda()
     sample = tokenizer(
         "Email Ada at ada@example.com and call +1 415 555 0198.",
-        max_length=128,
+        max_length=256,
         padding="max_length",
         truncation=True,
         return_tensors="pt",
@@ -69,8 +69,11 @@ def compile_and_promote(run_id: str) -> dict[str, object]:
         traced,
         ir="ts",
         inputs=[
-            torch_tensorrt.Input(min_shape=(1, 8), opt_shape=(1, 128), max_shape=(1, 256), dtype=torch.int32),
-            torch_tensorrt.Input(min_shape=(1, 8), opt_shape=(1, 128), max_shape=(1, 256), dtype=torch.int32),
+            # DistilBERT's learned position embeddings are not stable across
+            # dynamic TensorRT profiles in this Torch-TensorRT release. A
+            # fixed, padded 256-token profile gives a portable compiled engine.
+            torch_tensorrt.Input(shape=(1, 256), dtype=torch.int32),
+            torch_tensorrt.Input(shape=(1, 256), dtype=torch.int32),
         ],
         enabled_precisions={torch.float16},
         # DistilBERT's traced graph contains a few shape constants represented

@@ -52,6 +52,8 @@ modal deploy modal_app/service.py
 
 See [deployment instructions](docs/deployment.md) for the artifact lifecycle and local CUDA container command.
 
+The TensorRT artifact uses a fixed padded 256-token profile. This avoids the dynamic-profile incompatibility between the current Torch-TensorRT release and DistilBERT's learned positional embeddings; API input is still capped at 10,000 characters and truncated safely by the tokenizer.
+
 ## Dataset and label policy
 
 Training reads a reproducible, seed-42 sample of up to 20,000 records from [`ai4privacy/pii-masking-200k`](https://huggingface.co/datasets/ai4privacy/pii-masking-200k). Raw data is downloaded only inside the training environment and is never committed.
