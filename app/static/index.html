@@ -21,7 +21,7 @@
     <main>
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy">
-          <h1 id="page-title">Redact private data before it leaves your system.</h1>
+          <h1 id="page-title">Redact private data<span class="desktop-break"><br /></span> before it leaves your system.</h1>
           <p>Detect sensitive spans in unstructured text with a fine-tuned model, then return safe, structured output.</p>
         </div>
         <div class="illustration-wrap" aria-hidden="true">
@@ -42,7 +42,7 @@ My name is Sarah Johnson and my email is sarah.johnson@example.com.
 You can call me at (415) 555-0198.
 
 My mailing address is 1234 Maple Street, Apt 5B, San Francisco, CA 94107.</textarea>
-          <button class="primary-button" id="redact-button" type="submit">Redact PII <span aria-hidden="true">→</span></button>
+          <button class="primary-button" id="redact-button" type="submit">Redact PII</button>
         </form>
 
         <section class="panel result-panel" aria-labelledby="redacted-title">
@@ -64,9 +64,9 @@ My mailing address is 1234 Maple Street, Apt 5B, San Francisco, CA 94107.</texta
           <p id="metrics-status">Metrics load after evaluation.</p>
         </div>
         <dl class="metrics-grid">
-          <div><dt>Entity F1</dt><dd id="metric-f1">—</dd></div>
-          <div><dt>P95 latency</dt><dd id="metric-latency">—</dd></div>
-          <div><dt>Throughput</dt><dd id="metric-throughput">—</dd></div>
+          <div><span class="metric-icon target" aria-hidden="true"></span><div><dt>Entity F1</dt><dd id="metric-f1">—</dd></div></div>
+          <div><span class="metric-icon gauge" aria-hidden="true"></span><div><dt>P95 latency</dt><dd id="metric-latency">—</dd></div></div>
+          <div><span class="metric-icon chart" aria-hidden="true"></span><div><dt>Throughput</dt><dd id="metric-throughput">—</dd></div></div>
         </dl>
       </section>
     </main>

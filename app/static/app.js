@@ -66,6 +66,8 @@ copyButton.addEventListener("click", async () => {
 
 async function loadMetrics() {
   try {
+    const health = await fetch("/health");
+    if (!health.ok || (await health.json()).status !== "ready") return;
     const response = await fetch("/metrics");
     if (!response.ok) return;
     const metrics = await response.json();
