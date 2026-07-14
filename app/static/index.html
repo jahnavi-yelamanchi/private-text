@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="PrivateText is a TensorRT-optimized PII redaction API." />
+    <title>PrivateText — PII redaction</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="PrivateText home"><span class="brand-mark" aria-hidden="true"></span>PrivateText</a>
+      <nav aria-label="Primary navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="/docs">API</a>
+        <a href="https://github.com/jahnavi-yelamanchi/private-text">GitHub</a>
+        <a class="nav-cta" href="/docs">Try the API</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <h1 id="page-title">Redact private data before it leaves your system.</h1>
+          <p>Detect sensitive spans in unstructured text with a fine-tuned model, then return safe, structured output.</p>
+        </div>
+        <div class="illustration-wrap" aria-hidden="true">
+          <img src="/static/assets/privacy-illustration.png" alt="" />
+        </div>
+      </section>
+
+      <section class="workbench" id="how-it-works" aria-label="PII redaction demo">
+        <form class="panel source-panel" id="redaction-form">
+          <div class="panel-heading">
+            <h2>Original text</h2>
+            <span id="request-status" role="status" aria-live="polite"></span>
+          </div>
+          <label class="sr-only" for="source-text">Text to redact</label>
+          <textarea id="source-text" name="text" maxlength="10000" required>Hi — I’m reaching out because I need help updating my account information.
+
+My name is Sarah Johnson and my email is sarah.johnson@example.com.
+You can call me at (415) 555-0198.
+
+My mailing address is 1234 Maple Street, Apt 5B, San Francisco, CA 94107.</textarea>
+          <button class="primary-button" id="redact-button" type="submit">Redact PII <span aria-hidden="true">→</span></button>
+        </form>
+
+        <section class="panel result-panel" aria-labelledby="redacted-title">
+          <div class="panel-heading">
+            <h2 id="redacted-title">Redacted text</h2>
+            <button class="copy-button" id="copy-button" type="button" disabled aria-label="Copy redacted text">Copy</button>
+          </div>
+          <pre id="redacted-text" class="redacted-output" aria-live="polite">Your redacted text will appear here.</pre>
+          <div class="entity-table-wrap">
+            <div class="entity-table-heading" aria-hidden="true"><span>Entity type</span><span>Extracted text</span><span>Confidence</span></div>
+            <ul class="entity-list" id="entity-list" aria-live="polite"><li class="empty-state">Detected PII will appear here after a completed request.</li></ul>
+          </div>
+        </section>
+      </section>
+
+      <section class="metrics-band" aria-labelledby="metrics-title">
+        <div>
+          <h2 id="metrics-title">Built for measured inference</h2>
+          <p id="metrics-status">Metrics load after evaluation.</p>
+        </div>
+        <dl class="metrics-grid">
+          <div><dt>Entity F1</dt><dd id="metric-f1">—</dd></div>
+          <div><dt>P95 latency</dt><dd id="metric-latency">—</dd></div>
+          <div><dt>Throughput</dt><dd id="metric-throughput">—</dd></div>
+        </dl>
+      </section>
+    </main>
+    <footer>PrivateText redacts text with a promoted TensorRT model. Review model output before using it in production workflows.</footer>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

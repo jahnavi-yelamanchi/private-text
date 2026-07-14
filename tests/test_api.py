@@ -34,3 +34,11 @@ def test_redact_endpoint_rejects_blank_input() -> None:
     response = TestClient(app).post("/redact", json={"text": ""})
 
     assert response.status_code == 422
+
+
+def test_demo_page_serves_the_redaction_workbench() -> None:
+    response = TestClient(app).get("/")
+
+    assert response.status_code == 200
+    assert "Redact private data" in response.text
+    assert "privacy-illustration.png" in response.text
