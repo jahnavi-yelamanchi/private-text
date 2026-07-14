@@ -76,7 +76,6 @@ def compile_and_promote(run_id: str) -> dict[str, object]:
         # DistilBERT's traced graph contains a few shape constants represented
         # as int64/float64; TensorRT needs them narrowed during conversion.
         truncate_long_and_double=True,
-        allow_shape_tensors=True,
     )
     artifact_name = "model-tensorrt-fp16.ts"
     artifact_path = run_path / artifact_name
