@@ -4,6 +4,9 @@ from modal_app.data import SourceRecord, SourceSpan, bio_labels_for_offsets, nor
 def test_source_labels_are_normalized_into_api_types() -> None:
     assert normalize_label("email_address") == "EMAIL"
     assert normalize_label("credit-card") == "ACCOUNT_ID"
+    assert normalize_label("FIRSTNAME") == "PERSON"
+    assert normalize_label("PHONENUMBER") == "PHONE"
+    assert normalize_label("STREET") == "ADDRESS"
     assert normalize_label("unknown") is None
 
 
@@ -16,6 +19,21 @@ def test_dataset_row_reads_char_offsets() -> None:
     record = record_from_row(row)
 
     assert record == SourceRecord("Email Ada at ada@example.com", (SourceSpan("PERSON", 6, 9),))
+
+
+def test_released_dataset_label_variants_are_preserved() -> None:
+    row = {
+        "source_text": "Dear Omer, call 555-0100 at 12 Maple Street.",
+        "privacy_mask": [
+            {"label": "FIRSTNAME", "start": 5, "end": 9},
+            {"label": "PHONENUMBER", "start": 16, "end": 24},
+            {"label": "STREET", "start": 28, "end": 43},
+        ],
+    }
+
+    record = record_from_row(row)
+
+    assert [span.label for span in record.spans] == ["PERSON", "PHONE", "ADDRESS"]
 
 
 def test_char_spans_become_bio_labels() -> None:
