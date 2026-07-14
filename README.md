@@ -62,14 +62,14 @@ The project preserves the training run's exact source-label mapping in `metrics.
 
 | API type | Source examples |
 | --- | --- |
-| `PERSON` | `PERSON`, `PERSON_NAME`, `FIRST_NAME`, `LAST_NAME` |
+| `PERSON` | `PERSON`, `PERSON_NAME`, `FIRST_NAME`, `LAST_NAME`, `FIRSTNAME`, `MIDDLENAME`, `LASTNAME`, `PREFIX` |
 | `EMAIL` | `EMAIL`, `EMAIL_ADDRESS` |
-| `PHONE` | `PHONE`, `PHONE_NUMBER`, `MOBILE_PHONE` |
-| `ADDRESS` | `ADDRESS`, `STREET_ADDRESS` |
-| `ORGANIZATION` | `ORGANIZATION`, `ORGANISATION`, `COMPANY` |
-| `LOCATION` | `LOCATION`, `CITY`, `STATE`, `COUNTRY`, `ZIP_CODE` |
-| `DATE` | `DATE`, `DATE_TIME` |
-| `ACCOUNT_ID` | `ACCOUNT_NUMBER`, `IBAN`, `CREDIT_CARD`, `SSN`, `PASSPORT` |
+| `PHONE` | `PHONE`, `PHONE_NUMBER`, `MOBILE_PHONE`, `PHONENUMBER`, `PHONEIMEI` |
+| `ADDRESS` | `ADDRESS`, `STREET_ADDRESS`, `STREET`, `BUILDINGNUMBER`, `SECONDARYADDRESS`, `ZIPCODE` |
+| `ORGANIZATION` | `ORGANIZATION`, `ORGANISATION`, `COMPANY`, `COMPANYNAME` |
+| `LOCATION` | `LOCATION`, `CITY`, `COUNTY`, `STATE`, `COUNTRY`, `ZIP_CODE` |
+| `DATE` | `DATE`, `DATE_TIME`, `DOB` |
+| `ACCOUNT_ID` | `ACCOUNT_NUMBER`, `ACCOUNTNUMBER`, `IBAN`, `CREDIT_CARD`, `CREDITCARDNUMBER`, `SSN`, `PASSPORT` |
 
 ## Measured results only
 
@@ -77,22 +77,22 @@ The `/metrics` endpoint is unavailable until a held-out test run is evaluated an
 
 ## Measured run
 
-The promoted run `20260714T185931Z` trained on 5,428 records, validated on 678, and evaluated on 679 held-out public-dataset records. The requested 20,000-record sample yielded 6,785 records with supported, offset-valid PII spans after filtering.
+The promoted run `20260714T191813Z` trained on 14,737 records, validated on 1,842, and evaluated on 1,843 held-out public-dataset records. The fixed 20,000-record sample yielded 18,422 records with supported, offset-valid PII spans after filtering.
 
 | Held-out metric | Result |
 | --- | ---: |
-| Entity F1 | 0.8144 |
-| Entity precision | 0.7664 |
-| Entity recall | 0.8688 |
-| Missed-PII rate | 13.12% |
-| False-redaction rate | 23.36% |
+| Entity F1 | 0.9011 |
+| Entity precision | 0.8811 |
+| Entity recall | 0.9220 |
+| Missed-PII rate | 7.80% |
+| False-redaction rate | 11.89% |
 
 | GPU artifact | Size | P50 latency | P95 latency | Throughput |
 | --- | ---: | ---: | ---: | ---: |
-| PyTorch FP32 | — | 7.528 ms | 7.766 ms | 132.84/s |
-| TensorRT FP16 | 177.9 MB | 1.553 ms | 1.616 ms | 643.79/s |
+| PyTorch FP32 | — | 7.210 ms | 7.739 ms | 138.70/s |
+| TensorRT FP16 | 178.0 MB | 1.520 ms | 1.543 ms | 657.88/s |
 
-The promoted artifact can currently emit `ACCOUNT_ID`, `DATE`, `EMAIL`, and `LOCATION` because those were the supported labels present in this filtered training sample. The API schema remains stable for future runs with broader public-data coverage.
+The promoted artifact emits `ACCOUNT_ID`, `ADDRESS`, `DATE`, `EMAIL`, `LOCATION`, `ORGANIZATION`, `PERSON`, and `PHONE` from the evaluated run. The API schema remains stable for future runs with broader public-data coverage.
 
 ## Test
 
